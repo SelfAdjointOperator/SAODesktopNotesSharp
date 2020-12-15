@@ -49,16 +49,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Note.cs" />
+    <Compile Include="NotesIO.cs" />
+    <Compile Include="Wallpaper.cs" />
+    <Compile Include="Enum\State.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enum\MainMenuActionKey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrayIconAndClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -68,6 +78,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="MainForm.Constructors.cs">
+      <SubType>Form</SubType>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -83,7 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\saopng_144.png" />
     <Content Include="saoicon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
