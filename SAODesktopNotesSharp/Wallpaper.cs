@@ -15,24 +15,47 @@ namespace SAODesktopNotesSharp {
         private static int screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
         private static int horizontalMargin = 10;
+        private static int noteLeftMargin = horizontalMargin + 335;
+
+        private static Brush textGoldBrush = new SolidBrush(textGold);
+        private static Font fnt = new Font("Courier New", 12);
+        private static int lineHeight = 22;
+        private static double charWidth = 12.5;
+
+        private static int noteWidth = screenWidth - (noteLeftMargin + horizontalMargin);
+        private static int messageCharsPerLine = Convert.ToInt32(noteWidth / charWidth);
+
+        private static IEnumerable<string> splitString(string stringToSplit, int splitSize) {
+            if (stringToSplit == "") {
+                yield return " "; // for notes with no content
+            } else {
+                for (int i = 0; i < stringToSplit.Length; i += splitSize)
+                    yield return stringToSplit.Substring(i, Math.Min(splitSize, stringToSplit.Length - i));
+            }
+        }
 
         private static void DrawAndSaveWallpaper(List<Note> notesList) {
             Bitmap bmp = new Bitmap(screenWidth, screenHeight);
             Graphics g = Graphics.FromImage(bmp);
+            g.Clear(backgroundWhite);
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            Font fnt = new Font("Courier New", 14);
-            //Font fnt = new Font(FontFamily.GenericMonospace, 14);
 
-            g.DrawString("here we are now again", fnt, Brushes.White, 500, 500);
             using (Bitmap saoLogo = Properties.Resources.saopng_144) {
                 g.DrawImage(saoLogo, Convert.ToInt32((screenWidth - saoLogo.Width) / 2), 10);
             }
 
+            int noteIndex = 0;
+            int currentVerticalPosition = 160;
             foreach (Note note in notesList) {
-                RectangleF rectangleF = new RectangleF(horizontalMargin, 400, screenWidth - horizontalMargin, 420);
-                g.DrawString(note.date.ToString() + " : " + note.noteText, fnt, Brushes.Fuchsia, rectangleF);
+                g.DrawString(noteIndex.ToString().PadLeft(2, '0') + " : " + note.date.ToString() + " : ", fnt, textGoldBrush, horizontalMargin, currentVerticalPosition);
+                foreach (string splitStringLine in splitString(note.noteText, messageCharsPerLine)) {
+                    RectangleF rectangleF = new RectangleF(noteLeftMargin, currentVerticalPosition, noteWidth, lineHeight);
+                    g.DrawString(splitStringLine, fnt, textGoldBrush, rectangleF);
+                    currentVerticalPosition += lineHeight;
+                }
+                noteIndex++;
             }
 
             g.Flush();

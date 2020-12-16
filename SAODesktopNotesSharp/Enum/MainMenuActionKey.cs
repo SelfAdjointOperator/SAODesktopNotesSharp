@@ -5,6 +5,7 @@
         D,
         E,
         R,
+        M,
         UNKNOWN
     }
 }

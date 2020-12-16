@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="MainForm.Correspondences.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Note.cs" />
     <Compile Include="NotesIO.cs" />
     <Compile Include="Wallpaper.cs" />
