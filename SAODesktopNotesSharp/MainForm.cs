@@ -77,7 +77,7 @@ namespace SAODesktopNotesSharp {
                                 break;
                             }
                         case MainMenuActionKey.UNKNOWN: {
-                                Text = "Unknown Command";
+                                Text = "Unknown Command. " + mainMenuText;
                                 break;
                             }
 
