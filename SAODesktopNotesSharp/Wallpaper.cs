@@ -35,31 +35,32 @@ namespace SAODesktopNotesSharp {
         }
 
         private static void DrawAndSaveWallpaper(List<Note> notesList) {
-            Bitmap bmp = new Bitmap(screenWidth, screenHeight);
-            Graphics g = Graphics.FromImage(bmp);
-            g.Clear(backgroundWhite);
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            using (Bitmap bmp = new Bitmap(screenWidth, screenHeight))
+            using (Graphics g = Graphics.FromImage(bmp)) {
+                g.Clear(backgroundWhite);
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            using (Bitmap saoLogo = Properties.Resources.saopng_144) {
-                g.DrawImage(saoLogo, Convert.ToInt32((screenWidth - saoLogo.Width) / 2), 10);
-            }
-
-            int noteIndex = 0;
-            int currentVerticalPosition = 160;
-            foreach (Note note in notesList) {
-                g.DrawString(noteIndex.ToString().PadLeft(2, '0') + " : " + note.date.ToString() + " : ", fnt, textGoldBrush, horizontalMargin, currentVerticalPosition);
-                foreach (string splitStringLine in splitString(note.noteText, messageCharsPerLine)) {
-                    RectangleF rectangleF = new RectangleF(noteLeftMargin, currentVerticalPosition, noteWidth, lineHeight);
-                    g.DrawString(splitStringLine, fnt, textGoldBrush, rectangleF);
-                    currentVerticalPosition += lineHeight;
+                using (Bitmap saoLogo = Properties.Resources.saopng_144) {
+                    g.DrawImage(saoLogo, Convert.ToInt32((screenWidth - saoLogo.Width) / 2), 10);
                 }
-                noteIndex++;
-            }
 
-            g.Flush();
-            bmp.Save(wallpaperPath, System.Drawing.Imaging.ImageFormat.Png);
+                int noteIndex = 0;
+                int currentVerticalPosition = 160;
+                foreach (Note note in notesList) {
+                    g.DrawString(noteIndex.ToString().PadLeft(2, '0') + " : " + note.date.ToString() + " : ", fnt, textGoldBrush, horizontalMargin, currentVerticalPosition);
+                    foreach (string splitStringLine in splitString(note.noteText, messageCharsPerLine)) {
+                        RectangleF rectangleF = new RectangleF(noteLeftMargin, currentVerticalPosition, noteWidth, lineHeight);
+                        g.DrawString(splitStringLine, fnt, textGoldBrush, rectangleF);
+                        currentVerticalPosition += lineHeight;
+                    }
+                    noteIndex++;
+                }
+
+                g.Flush();
+                bmp.Save(wallpaperPath, System.Drawing.Imaging.ImageFormat.Png);
+            }
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -70,6 +71,7 @@ namespace SAODesktopNotesSharp {
             key.SetValue(@"WallpaperStyle", 6.ToString());
             key.SetValue(@"TileWallpaper", 0.ToString());
             SystemParametersInfo(20, 0, wallpaperPath, 0x01 | 0x02);
+            key.Close();
         }
 
         public static void DrawSaveAndSetWallpaper(List<Note> notesList) {

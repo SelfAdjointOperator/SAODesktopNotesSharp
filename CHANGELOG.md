@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.2.0
+- Fix memory leak
+
 ## v1.0.1.0
 - Add `README.md` and `CHANGELOG.md`
 - Update "unknown command" text
