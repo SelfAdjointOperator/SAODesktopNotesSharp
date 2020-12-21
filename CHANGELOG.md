@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.3.0
+- Change `Q` key to minimise instead of exit
+
 ## v1.0.2.0
 - Fix memory leak
 
