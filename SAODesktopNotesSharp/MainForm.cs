@@ -36,8 +36,7 @@ namespace SAODesktopNotesSharp {
                     }
                     switch (action) {
                         case MainMenuActionKey.Q: {
-                                Text = "Quitting...";
-                                Application.Exit();
+                                Hide();
                                 break;
                             }
                         case MainMenuActionKey.A: {
